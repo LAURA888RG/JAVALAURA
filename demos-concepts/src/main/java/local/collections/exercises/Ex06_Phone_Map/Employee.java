@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-
 /* 
 Clase Empleado antes definida 
 (con nombre, apellidos, fecha de contratación y número de empleado). 
@@ -20,22 +19,37 @@ que devuelve -1 si es menor que el recibido,
 */
 
 public class Employee implements Comparable<Employee> {
+
+    // Propiedades static o de clase
+
+    private static int countEmployees = 0;
+
+    // Métodos static o de clase
+
+    public static int updateCounter() {
+        return ++countEmployees;
+    }
+
     int id;
     String name;
     String surname;
     String surname2;
+    String phone;
+    String mail;
     LocalDate date;
 
-    public Employee(int id, String name, String surname,String surname2, String date) {
-        this.id = id;
+    public Employee(String name, String surname, String surname2,
+            String date) {
+        this.id = updateCounter();
         this.name = name;
         this.surname = surname;
-        this.surname = surname2; 
-        this.surname = name;
+        this.surname2 = surname2;
+        this.mail = name.toLowerCase() + "@sample.com";
+        this.phone = "636" + id + "93" + "43" + id;
         this.date = formatDate(date);
     }
 
-    private LocalDate formatDate (String dateStr) {
+    private LocalDate formatDate(String dateStr) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(dateStr, formatter);
         return date;
@@ -52,10 +66,8 @@ public class Employee implements Comparable<Employee> {
 
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", name=" + name 
-        + ", surname=" + surname 
-        + ", surname2=" + surname2 
-        + ", date=" + date + "]";
+        return "Employee [id=" + id + ", name=" + name + ", surname=" + surname + ", surname2=" + surname2 + ", phone="
+                + phone + ", mail=" + mail + ", date=" + date + "]";
     }
 
     @Override
@@ -66,5 +78,5 @@ public class Employee implements Comparable<Employee> {
         }
         return diffDays;
     }
-    
+
 }
