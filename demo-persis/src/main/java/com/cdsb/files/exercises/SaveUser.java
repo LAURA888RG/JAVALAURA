@@ -1,4 +1,4 @@
-package com.cdsb.files.ecxercises;
+package com.cdsb.files.exercises;
 
 import java.util.List;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package com.cdsb.files.ecxercises;
+package com.cdsb.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
