@@ -12,14 +12,13 @@ public class Jsons {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    {
-        // Set visibility for fields to be accessible
+        private static void setConfi() {
         // This allows Jackson to serialize/deserialize private fields
         mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
         mapper.registerModule(new JavaTimeModule());
         // This is needed to avoid writing dates as timestamps
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
+        }
 
 
     public static <T extends Object> String toJson(T obj) {
