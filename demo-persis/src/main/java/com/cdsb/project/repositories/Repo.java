@@ -1,9 +1,8 @@
 package com.cdsb.project.repositories;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface Repo<I, E, DTO> {
+public interface Repo<I, E> {
 
     List<E> readAll();
     // findAll
@@ -14,13 +13,12 @@ public interface Repo<I, E, DTO> {
     // findById
     // getById
 
-    E create(DTO data);
+    E create(E data) throws Exception;
     // save
 
-    E updateById(I id, E data) throws Exception;
+    E updateById(E data) throws Exception;
     // update
 
     E deleteById(I id) throws Exception;
     // delete
-
 }
