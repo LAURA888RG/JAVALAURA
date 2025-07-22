@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "meetigns")
 public class Meeting {
     @Column(name = "meeting_id")
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
 
 
