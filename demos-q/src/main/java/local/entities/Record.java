@@ -30,4 +30,9 @@ public class Record {
         return "Record [id=" + id + ", content=" + content + "]";
     }
 
+    public void setContent(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setContent'");
+    }
+
 }

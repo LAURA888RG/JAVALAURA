@@ -14,10 +14,11 @@
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.schemma-generation.database.action" value="update"/>
-            <!-- Hibernate properties -->
-            <!-- <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--Hibernate properties-->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
-        -->
+            <property name="hibernate.format_sql" value="true" />
+        <!-- <property name="hibernatr.transaction.jta.platform" value="true"/> -->
             </properties> 
     </persistence-unit>
 </persistence>

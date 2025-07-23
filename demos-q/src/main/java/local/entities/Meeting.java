@@ -23,7 +23,7 @@ public class Meeting {
 
     private LocalDateTime date;
 
-    public Meeting() {
+    public Meeting(String string, LocalDateTime localDateTime) {
         // JPA default constructor
     }
 
@@ -37,5 +37,15 @@ public class Meeting {
     @Override
     public String toString() {
         return "Meeting [id=" + id + ", description=" + description + ", date=" + date + "]";
+    }
+
+    public void setDescription(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDescription'");
+    }
+
+    public void setDate(LocalDateTime plusDays) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setDate'");
     }
 }

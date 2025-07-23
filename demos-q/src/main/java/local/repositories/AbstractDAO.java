@@ -1,6 +1,8 @@
 package local.repositories;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import local.connections.EntityManagerProvider;
@@ -16,8 +18,8 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     }
 
     public AbstractDAO(
-        Class<E> entityClass,
-        EntityManager entityManager) {
+            Class<E> entityClass,
+            EntityManager entityManager) {
         this.entityManager = entityManager;
         this.entityClass = entityClass;
     }
@@ -27,41 +29,42 @@ public abstract class AbstractDAO<E> implements DAO<E> {
 
         String finalSQL = " FROM " + entityClass.getCanonicalName();
         // Query q = entityManager.createQuery(finalSQL, entityClass);
-        // return (List<E>)q.getResultList();
-
+        // return (List<E>) q.getResultList();
         return entityManager
                 .createQuery(finalSQL, entityClass)
-                
+                .getResultList();
     }
 
     @Override
-    public <ID> Optional<E> findById(ID id) {
-        // String finalSQL = " FROM " + entityClass.getCanonicalName();
+    public <ID> Optional<E> findById(UUID id) {
+        // String finalSQL = " FROM " + entityClass.getCanonicalName()
         // + " WHERE id = " + id;
-       
-       return Optional.ofNullable(entityManager.find(entityClass, id))
-       
+        return Optional.ofNullable(entityManager.find(entityClass, id));
 
-    
     }
 
     @Override
     public E save(E entity) {
         entityManager.getTransaction().begin();
-        entityManager.merge(entity);
+        entityManager.persist(entity);
         entityManager.getTransaction().commit();
-        return entity;
-        
+        return entity; // Return the saved entity
     }
 
     @Override
     public void update(E entity) {
+        entityManager.getTransaction().begin();
         entityManager.merge(entity);
+        entityManager.getTransaction().commit();
+
     }
 
     @Override
     public void delete(E entity) {
+        entityManager.getTransaction().begin();
         entityManager.remove(entity);
+        entityManager.getTransaction().commit();
     }
 
+ 
 }

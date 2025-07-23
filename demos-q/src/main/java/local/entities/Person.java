@@ -31,9 +31,22 @@ public class Person {
     
     }
 
+    public Person(String string, String string2, String string3) {
+        //TODO Auto-generated constructor stub
+    }
+
+    public Person(String string, String string2) {
+        //TODO Auto-generated constructor stub
+    }
+
     @Override
     public String toString() {
         return "Person [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + "]";
+    }
+
+    public void setEmail(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setEmail'");
     }
     
 

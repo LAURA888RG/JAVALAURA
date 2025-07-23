@@ -4,7 +4,7 @@ import local.entities.Meeting;
 
 public class MeetingDAO extends AbstractDAO<Meeting> {
 
-     MeetingDAO() {
+     public MeetingDAO() {
         super(Meeting.class);
      }
 }
