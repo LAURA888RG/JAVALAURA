@@ -2,7 +2,6 @@ package local.repositories;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import local.connections.EntityManagerProvider;
@@ -36,7 +35,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     }
 
     @Override
-    public <ID> Optional<E> findById(UUID id) {
+    public <ID> Optional<E> findById(ID id) {
         // String finalSQL = " FROM " + entityClass.getCanonicalName()
         // + " WHERE id = " + id;
         return Optional.ofNullable(entityManager.find(entityClass, id));
@@ -66,5 +65,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
         entityManager.getTransaction().commit();
     }
 
- 
+    public void detach(E entity) {
+        entityManager.detach(entity);
+    }
 }

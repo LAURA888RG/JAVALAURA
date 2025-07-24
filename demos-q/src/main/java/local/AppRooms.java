@@ -1,17 +1,29 @@
 package local;
 
 import local.entities.Room;
-import local.repositories.RecordDAO;
+import local.repositories.RoomDAO;
 
 public class AppRooms {
 
-     private static void checkRooms(){
-         RoomDAO dao = new RoomDAO();
+    private static void checkRooms() {
+        RoomDAO dao = new RoomDAO();
 
-        dao.save(new Room("Info de una reunión"));
-        dao.save(new Room("Info de otra reunión"));
-         
-        
+        System.out.println("----------- Delete by ID S0201 (si existe)-----------");
+
+        dao.findById("S0101").ifPresentOrElse(
+                dao::delete,
+                () -> System.out.println("Sala no encontrada: no se ha podido eliminar"));
+        dao.findById("S0201").ifPresentOrElse(
+                dao::delete,
+                () -> System.out.println("Sala no encontrada: no se ha podido eliminar"));
+
+
+        try {
+            dao.save(new Room("S0101", "Sala principal",10));
+        } catch (Exception e) {
+            System.out.println("Salas ya creadas");
+        }
+        dao.save(new Room("S0201", "Sala pequeña", 5));
 
         System.out.println("----------- Find All -----------");
         System.out.println(dao.findAll());
@@ -20,37 +32,29 @@ public class AppRooms {
         System.out.println("----------- Find by ID invalid -----------");
         System.out.println(dao.findById(100));
 
-        System.out.println("----------- Delete by ID 1 (si existe)-----------");
+        System.out.println("----------- Delete by ID S0201 (si existe)-----------");
 
-        dao.findById(1).ifPresentOrElse(
-            dao::delete,
-            () -> System.out.println("Recorda no encontrada: no se ha podido eliminar"));
-             System.out.println("----------- Find All after delete -----------");
-                System.out.println(dao.findAll());
+        dao.findById("S0201").ifPresentOrElse(
+                dao::delete,
+                () -> System.out.println("Sala no encontrada: no se ha podido eliminar"));
+        System.out.println("----------- Find All after delete -----------");
+        System.out.println(dao.findAll());
 
         try {
-            Room p3 = dao.findById(3).orElseThrow(() -> new RuntimeException("Person not found"));
+            Room r1 = new Room("S0101", "Sala principal reformada", 15);
             System.out.println("----------- Update by ID 2 -----------");
-            p3.setContent("Info actualizada de la reunión");
-            dao.update(p3);
-
+            dao.update(r1);
             System.out.println("----------- Find All after update -----------");
             System.out.println(dao.findAll());
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-    
+
     }
-
-
-    
 
     public static void main(String[] args) {
         System.out.println("Rooms application");
         checkRooms();
     }
-
-
-
 }
