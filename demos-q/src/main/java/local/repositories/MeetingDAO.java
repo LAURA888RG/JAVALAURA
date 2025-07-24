@@ -13,7 +13,7 @@ public class MeetingDAO extends AbstractDAO<Meeting> {
         super(Meeting.class);
     }
 
-    public List<Meeting> findByDate(LocalDate date) {
+    public List<Meeting> findByDate(LocalDate date ) {
         // String qs = "SELECT m FROM Meeting m WHERE m.date = ?1";
         String qs = "FROM Meeting m WHERE DATE(m.date) = ?1";
         // Query query = entityManager.createQuery(qs);
