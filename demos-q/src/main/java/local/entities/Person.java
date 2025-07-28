@@ -1,18 +1,24 @@
 package local.entities;
 
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "persons")
-public class Person {
-
-     @Column(name = "person_id")
+public class Person implements IEntities {
+    @Column(name = "person_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,36 +26,76 @@ public class Person {
     private String surname;
     private String email;
 
-    public Person(int id, String name, String surname, String email) {
-        this.id = id;
+    // Primera tabla de la relación
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //
+    @JoinTable(
+            // name = "persons_meetings",
+            joinColumns = {
+                 @JoinColumn(name = "meeting_id") },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "person_id") })
+    private Set<Meeting> meetings;
+
+    public Person() {
+        // JPA default constructor
+        meetings = new HashSet<>();
+    }
+
+    public Person(String name, String surname, String email) {
+        this();
         this.name = name;
         this.surname = surname;
         this.email = email;
     }
 
-    public Person() {
-    
+    // Getters
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Person(String string, String string2, String string3) {
-        //TODO Auto-generated constructor stub
+    public Set<Meeting> getMeetings() {
+        return meetings;
     }
 
-    public Person(String string, String string2) {
-        //TODO Auto-generated constructor stub
+    // Setters
+
+    public void addMeeting(Meeting meeting) {
+        if (meeting == null) {
+            throw new IllegalArgumentException("Meeting cannot be null");
+        }
+        if (meetings.contains(meeting)) {
+            return; // Meeting already added
+        }
+        this.meetings.add(meeting);
+        // Ensure bidirectional relationship
+        // Al ser un Set, no se añade si ya existe
+        // pero podría entrar en un bucle infinito si no se comprueba
+        if (!meeting.getPersons().contains(this)) {
+            meeting.getPersons().add(this);
+        }
     }
 
     @Override
     public String toString() {
-        return "Person [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + "]";
+        return toString(false);
     }
 
-    public void setEmail(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setEmail'");
+    public String toString(boolean isFull) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Person {id: ").append(id)
+                //
+                .append(", name: ").append(name)
+                //
+                .append(", surname: ").append(surname)
+                //
+                .append(", email: ").append(email);
+        if (isFull && meetings != null) {
+            sb.append(", meetings: ").append(meetings);
+        }
+        sb.append("}");
+        return sb.toString();
     }
-    
-
-
 
 }
