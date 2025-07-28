@@ -1,14 +1,13 @@
 
 package local.entities;
 
+import java.util.Set;
 
-import java.util.List;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -16,17 +15,17 @@ import jakarta.persistence.Table;
 @Table(name = "rooms")
 public class Room {
     @Column(name = "room_id")
-    @Id()
+    @Id
     private String id;
+    @Column(unique = true)
     private String name;
     private int capacity;
-  
-    @OneToMany(mappedBy = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Meeting> meetings;
 
     public Room() {
-        //JPA default constructor
+        // JPA default constructor
     }
 
     public Room(String id, String name, int capacity) {
@@ -37,8 +36,18 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity + ", meetings=" + meetings + "]";
+        return toString(false);
     }
 
-   
+    public String toString(boolean includeRelations) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Room {id:").append(id).append(", name:").append(name).append(", capacity:").append(capacity);
+
+        if (includeRelations && meetings != null) {
+            sb.append(", meetings:").append(meetings);
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
 }
